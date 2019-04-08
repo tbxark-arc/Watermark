@@ -9,6 +9,8 @@
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
+![](./Example/example.png)
+
 ```swift
 DispatchQueue.global().async {
     guard let bilibili = UIImage(named: "bilibili"),
