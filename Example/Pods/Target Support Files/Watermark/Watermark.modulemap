@@ -1,0 +1,6 @@
+framework module Watermark {
+  umbrella header "Watermark-umbrella.h"
+
+  export *
+  module * { export * }
+}

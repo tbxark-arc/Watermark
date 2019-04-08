@@ -1,0 +1,16 @@
+PODS:
+  - Watermark (0.1.0)
+
+DEPENDENCIES:
+  - Watermark (from `../`)
+
+EXTERNAL SOURCES:
+  Watermark:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  Watermark: 60d02195f6056a626d506608dbf35fcce87c7496
+
+PODFILE CHECKSUM: 7b18f3bd1d440cf41d88ab72e11e02f4a6e01e0c
+
+COCOAPODS: 1.6.1
