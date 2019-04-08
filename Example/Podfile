@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'Watermark_Example' do
+  pod 'Watermark', :path => '../'
+
+  target 'Watermark_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
