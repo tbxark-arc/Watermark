@@ -14,6 +14,7 @@ public class WatermarkProcessor {
         public enum Source {
             case image(UIImage)
             case text(NSAttributedString)
+            case view(UIView)
         }
         public struct Layout {
             public struct Position {
@@ -77,6 +78,12 @@ public class WatermarkProcessor {
             self.source = .image(image)
             self.layout = Layout(position: layout, size: image.size)
         }
+        
+        public init(view: UIView, layout: Layout.Position) {
+            self.source = .view(view)
+            self.layout = Layout(position: layout, size: view.bounds.size)
+        }
+        
     }
     
     private var items = [Media]()
@@ -89,6 +96,9 @@ public class WatermarkProcessor {
     
     public func process(origin: UIImage) -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(origin.size, false, origin.scale)
+        guard let context = UIGraphicsGetCurrentContext() else {
+            return nil
+        }
         origin.draw(in: CGRect(origin: CGPoint.zero, size: origin.size))
         for item in items {
             let rect = item.layout.convert(from: origin.size)
@@ -97,6 +107,11 @@ public class WatermarkProcessor {
                 img.draw(in: rect)
             case .text(let str):
                 str.draw(in: rect)
+            case .view(let view):
+                context.saveGState()
+                context.translateBy(x: rect.origin.x, y: rect.origin.y)
+                view.layer.render(in: context)
+                context.restoreGState()
             }
         }
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
