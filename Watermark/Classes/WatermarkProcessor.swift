@@ -9,7 +9,7 @@
 import UIKit
 
 public class WatermarkProcessor {
-
+    
     public struct Media {
         public enum Source {
             case image(UIImage)
@@ -22,10 +22,22 @@ public class WatermarkProcessor {
                 }
                 public var horizontal: (offset: CGFloat, alignment: Alignment)
                 public var vertical: (offset: CGFloat, alignment: Alignment)
+                
+                public init(horizontal: (offset: CGFloat, alignment: Alignment),
+                            vertical: (offset: CGFloat, alignment: Alignment)) {
+                    self.horizontal = horizontal
+                    self.vertical = vertical
+                }
             }
             public var position: Position
             public var size: CGSize
-
+            
+            
+            public init(position: Position, size: CGSize) {
+                self.position = position
+                self.size = size
+            }
+            
             func convert(from content: CGSize) -> CGRect {
                 var rect = CGRect(origin: CGPoint.zero, size: size)
                 switch position.horizontal.alignment {
@@ -47,29 +59,34 @@ public class WatermarkProcessor {
                 return rect
             }
         }
-
+        
         public var source: Source
         public var layout: Layout
-
+        
+        public init(source: Source, layout: Layout) {
+            self.source = source
+            self.layout = layout
+        }
+        
         public init(text: NSAttributedString, layout: Layout.Position) {
             self.source = .text(text)
             self.layout = Layout(position: layout, size: text.size())
         }
-
+        
         public init(image: UIImage, layout: Layout.Position) {
             self.source = .image(image)
             self.layout = Layout(position: layout, size: image.size)
         }
     }
-
+    
     private var items = [Media]()
-
+    
     public init() {}
-
+    
     public func addMedia(_ media: Media) {
         items.append(media)
     }
-
+    
     public func process(origin: UIImage) -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(origin.size, false, origin.scale)
         origin.draw(in: CGRect(origin: CGPoint.zero, size: origin.size))
